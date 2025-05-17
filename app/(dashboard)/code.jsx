@@ -4,7 +4,7 @@ import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 
-const Create = () => {
+const Code = () => {
   return (
     <ThemedView style={styles.container}>
 
@@ -17,7 +17,7 @@ const Create = () => {
   )
 }
 
-export default Create
+export default Code
 
 const styles = StyleSheet.create({
   container: {
