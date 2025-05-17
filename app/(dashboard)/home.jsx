@@ -10,7 +10,7 @@ import Spacer from '../../components/Spacer'
 
 const Home = () => {
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={styles.container} >
       <ThemedLogo />
       <Spacer height={20}/>
 
