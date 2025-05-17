@@ -1,4 +1,4 @@
-//import { Image, useColorScheme } from 'react-native'
+import { Image, useColorScheme } from 'react-native'
 
 // images
 import DarkLogo from '../assets/img/clock_dark.png'
