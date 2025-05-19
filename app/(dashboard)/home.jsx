@@ -136,14 +136,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardLabel: {
-    
     fontSize: 15,
     marginTop: 10,
     marginBottom: 6,
     textAlign: "center",
   },
   cardValue: {
-    
     fontWeight: "bold",
     fontSize: 28,
     textAlign: "center",
