@@ -1,4 +1,5 @@
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, Dimensions } from 'react-native'
+import { ProgressChart } from 'react-native-chart-kit'
 
 import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
@@ -11,6 +12,7 @@ const notReviewed = [
   "Refactor service class",
   "Add unit tests"
 ]
+const screenWidth = Dimensions.get('window').width
 
 const Test = () => {
   return (
@@ -30,11 +32,11 @@ const Test = () => {
           <View style={{ flex: 1 }}>
             <ThemedText style={styles.pass}>● Pass</ThemedText>
             <View style={styles.barBg}>
-              <View style={[styles.bar, { width: "70%", backgroundColor: "#4ade80" }]} />
+              <View style={[styles.bar, { width: "72%", backgroundColor: "#4ade80" }]} />
             </View>
             <ThemedText style={styles.fail}>● Fail</ThemedText>
             <View style={styles.barBg}>
-              <View style={[styles.bar, { width: "40%", backgroundColor: "#f87171" }]} />
+              <View style={[styles.bar, { width: "28%", backgroundColor: "#f87171" }]} />
             </View>
           </View>
           <View style={styles.percentBox}>
