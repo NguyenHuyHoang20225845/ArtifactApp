@@ -50,7 +50,7 @@ const Code = () => {
       datasets: [{ data: complexityData }]
     }}
     width={screenWidth - 54}
-    height={140}
+    height={170} 
     fromZero
     chartConfig={{
       backgroundColor: backgroundColor,
@@ -58,10 +58,10 @@ const Code = () => {
       backgroundGradientTo: backgroundColor,
       decimalPlaces: 0,
       color: () => "#7FB3FF",
-      labelColor: () => "#222",
+      labelColor: () => "#B6C6E3",
       style: { borderRadius: 12 }
     }}
-    style={{ borderRadius: 18, marginTop: 8 }}
+    style={{ borderRadius: 18, marginTop: 8, paddingBottom: 24 }} // thêm paddingBottom
     withInnerLines={false}
     withHorizontalLabels={true}
     showBarTops={false}
