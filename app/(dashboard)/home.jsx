@@ -12,22 +12,22 @@ import Spacer from '../../components/Spacer'
 
 const metrics = [
   {
-    icon: <Ionicons name="git-branch-outline" size={36}  />,
+    icon: <Ionicons name="git-branch-outline" size={36} color="#fff" />,
     label: "Commits / Tuần",
     value: "128",
   },
   {
-    icon: <Feather name="clock" size={36}  />,
+    icon: <Feather name="clock" size={36} color="#fff" />,
     label: "Dòng code / Ngày",
     value: "5,432",
   },
   {
-    icon: <MaterialCommunityIcons name="layers-outline" size={36}  />,
+    icon: <MaterialCommunityIcons name="layers-outline" size={36} color="#fff" />,
     label: "Artifacts",
     value: "76",
   },
   {
-    icon: <Feather name="cloud" size={36}  />,
+    icon: <Feather name="cloud" size={36} color="#fff" />,
     label: "Triển khai",
     value: "23",
   },
