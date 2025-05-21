@@ -5,14 +5,21 @@ import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from "../../components/ThemedCard"
+import testMock from '../../assets/data/mock.test.json'
 
-const notReviewed = [
-  "Fix bug in login module",
-  "Update dependencies",
-  "Refactor service class",
-  "Add unit tests"
-]
+
+
 const screenWidth = Dimensions.get('window').width
+
+const today = "2025-05-21" // hoặc: new Date().toISOString().slice(0, 10)
+const todayRuns = testMock.testRuns.filter(r => r.date === today)
+const testCasesToday = todayRuns.reduce((sum, r) => sum + r.cases.length, 0)
+const pass = todayRuns.reduce((sum, r) => sum + r.cases.filter(c => c.status === "pass").length, 0)
+const fail = todayRuns.reduce((sum, r) => sum + r.cases.filter(c => c.status === "fail").length, 0)
+const total = pass + fail
+const passRate = total ? Math.round((pass / total) * 100) : 0
+const failRate = total ? 100 - passRate : 0
+const notReviewed = testMock.commits.filter(c => !c.peerReviewed).map(c => c.message)
 
 const Test = () => {
   return (
@@ -23,38 +30,38 @@ const Test = () => {
       </ThemedText>
 
       <ThemedCard style={styles.card}>
-        <ThemedText style={styles.label}>Test cases run today: 52</ThemedText>
-      </ThemedCard>
+  <ThemedText style={styles.label}>Test cases run today: {testCasesToday}</ThemedText>
+</ThemedCard>
 
-      <ThemedCard style={styles.card}>
-        <ThemedText style={styles.label}>Pass/fail rate</ThemedText>
-        <View style={styles.row}>
-          <View style={{ flex: 1 }}>
-            <ThemedText style={styles.pass}>● Pass</ThemedText>
-            <View style={styles.barBg}>
-              <View style={[styles.bar, { width: "72%", backgroundColor: "#4ade80" }]} />
-            </View>
-            <ThemedText style={styles.fail}>● Fail</ThemedText>
-            <View style={styles.barBg}>
-              <View style={[styles.bar, { width: "28%", backgroundColor: "#f87171" }]} />
-            </View>
-          </View>
-          <View style={styles.percentBox}>
-            <ThemedText style={styles.percent}>72%</ThemedText>
-            <ThemedText style={styles.percentLabel}>Branch</ThemedText>
-          </View>
-        </View>
-      </ThemedCard>
+<ThemedCard style={styles.card}>
+  <ThemedText style={styles.label}>Pass/fail rate</ThemedText>
+  <View style={styles.row}>
+    <View style={{ flex: 1 }}>
+      <ThemedText style={styles.pass}>● Pass</ThemedText>
+      <View style={styles.barBg}>
+        <View style={[styles.bar, { width: `${passRate}%`, backgroundColor: "#4ade80" }]} />
+      </View>
+      <ThemedText style={styles.fail}>● Fail</ThemedText>
+      <View style={styles.barBg}>
+        <View style={[styles.bar, { width: `${failRate}%`, backgroundColor: "#f87171" }]} />
+      </View>
+    </View>
+    <View style={styles.percentBox}>
+      <ThemedText style={styles.percent}>{passRate}%</ThemedText>
+      <ThemedText style={styles.percentLabel}>Branch</ThemedText>
+    </View>
+  </View>
+</ThemedCard>
 
-      <ThemedCard style={styles.card}>
-        <ThemedText style={styles.label}>Commits not peer-reviewed</ThemedText>
-        {notReviewed.map(item => (
-          <View key={item} style={styles.bulletRow}>
-            <ThemedText style={styles.bullet}>•</ThemedText>
-            <ThemedText style={styles.bulletText}>{item}</ThemedText>
-          </View>
-        ))}
-      </ThemedCard>
+<ThemedCard style={styles.card}>
+  <ThemedText style={styles.label}>Commits not peer-reviewed</ThemedText>
+  {notReviewed.map(item => (
+    <View key={item} style={styles.bulletRow}>
+      <ThemedText style={styles.bullet}>•</ThemedText>
+      <ThemedText style={styles.bulletText}>{item}</ThemedText>
+    </View>
+  ))}
+</ThemedCard>
     </ThemedView>
   )
 }
