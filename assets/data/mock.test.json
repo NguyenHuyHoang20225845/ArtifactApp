@@ -1,0 +1,27 @@
+{
+  "testRuns": [
+    {
+      "date": "2025-05-21",
+      "branch": "main",
+      "cases": [
+        { "name": "Login works", "status": "pass" },
+        { "name": "Signup fails on duplicate", "status": "fail" },
+        { "name": "Profile loads", "status": "pass" }
+      ]
+    },
+    {
+      "date": "2025-05-21",
+      "branch": "feature/payment",
+      "cases": [
+        { "name": "Payment success", "status": "pass" },
+        { "name": "Payment fail", "status": "fail" }
+      ]
+    }
+  ],
+  "commits": [
+    { "message": "Fix bug in login module", "peerReviewed": false },
+    { "message": "Update dependencies", "peerReviewed": false },
+    { "message": "Refactor service class", "peerReviewed": true },
+    { "message": "Add unit tests", "peerReviewed": false }
+  ]
+}
