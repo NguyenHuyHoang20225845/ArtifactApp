@@ -3,6 +3,8 @@ import { Ionicons } from '@expo/vector-icons'
 import { BarChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
 import { Colors } from '../../constants/Colors'
+import artifacts from '../../assets/data/gr1Demo.artifacts.json'
+
 
 
 
@@ -10,6 +12,13 @@ import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from "../../components/ThemedCard"
+
+const allCommits = artifacts.flatMap(a => a.metadata.commits)
+const totalCommits = allCommits.length
+const totalLinesChanged = allCommits.reduce(
+  (sum, c) => sum + (c.additions || 0) + (c.deletions || 0),
+  0
+)
 
 const vulnerableModules = ["Module A", "Module B", "Module C", "Module D"]
 
@@ -32,13 +41,13 @@ const Code = () => {
 
 <View style={styles.row}>
   <ThemedCard style={[styles.card, { flex: 1, marginRight: 7 }]}>
-    <ThemedText style={styles.label}>Dòng code thay đổi</ThemedText>
-    <ThemedText style={styles.value}>1,520</ThemedText>
-  </ThemedCard>
-  <ThemedCard style={[styles.card, { flex: 1, marginLeft: 7 }]}>
-    <ThemedText style={styles.label}>Số commit</ThemedText>
-    <ThemedText style={styles.value}>30</ThemedText>
-  </ThemedCard>
+  <ThemedText style={styles.label}>Dòng code thay đổi</ThemedText>
+  <ThemedText style={styles.value}>{totalLinesChanged.toLocaleString()}</ThemedText>
+</ThemedCard>
+<ThemedCard style={[styles.card, { flex: 1, marginLeft: 7 }]}>
+  <ThemedText style={styles.label}>Số commit</ThemedText>
+  <ThemedText style={styles.value}>{totalCommits.toLocaleString()}</ThemedText>
+</ThemedCard>
 </View>
 
  <ThemedCard style={styles.chartCard}>
