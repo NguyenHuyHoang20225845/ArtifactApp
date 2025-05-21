@@ -1,50 +1,44 @@
 [
   {
-    "title": "Unauthorized access",
+    "title": "Privilege escalation vulnerability",
     "level": "Critical",
-    "cvss": 9.1,
+    "cvss": 9.3,
+    "date": "2025-05-22"
+  },
+  {
+    "title": "Outdated dependency",
+    "level": "High",
+    "cvss": 7.8,
+    "date": "2025-05-21"
+  },
+  {
+    "title": "Unvalidated redirect",
+    "level": "Medium",
+    "cvss": 6.1,
     "date": "2025-05-20"
   },
   {
-    "title": "SQL injection vulnerability",
-    "level": "High",
-    "cvss": 8.2,
+    "title": "Weak password policy",
+    "level": "Medium",
+    "cvss": 5.9,
+    "date": "2025-05-19"
+  },
+  {
+    "title": "Improper error handling",
+    "level": "Medium",
+    "cvss": 7.2,
     "date": "2025-05-18"
   },
   {
-    "title": "Insecure deserialization",
-    "level": "High",
-    "cvss": 7.9,
+    "title": "Exposed admin endpoint",
+    "level": "Critical",
+    "cvss": 8.9,
     "date": "2025-05-17"
   },
   {
-    "title": "Cross-site scripting",
+    "title": "Missing security headers",
     "level": "Medium",
-    "cvss": 6.5,
+    "cvss": 6.4,
     "date": "2025-05-16"
-  },
-  {
-    "title": "Sensitive data exposure",
-    "level": "Critical",
-    "cvss": 9.5,
-    "date": "2025-05-15"
-  },
-  {
-    "title": "Broken authentication",
-    "level": "Medium",
-    "cvss": 6.8,
-    "date": "2025-05-14"
-  },
-  {
-    "title": "Security misconfiguration",
-    "level": "Medium",
-    "cvss": 6.2,
-    "date": "2025-05-13"
-  },
-  {
-    "title": "Directory traversal",
-    "level": "High",
-    "cvss": 7.5,
-    "date": "2025-05-12"
   }
 ]
