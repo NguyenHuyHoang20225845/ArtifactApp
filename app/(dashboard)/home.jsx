@@ -3,6 +3,7 @@ import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import { LineChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
 import { Colors } from '../../constants/Colors'
+import artifacts from '../../assets/data/gr1Demo.artifacts.json'
 
 
 import ThemedView from '../../components/ThemedView'
@@ -10,34 +11,72 @@ import ThemedText from '../../components/ThemedText'
 import ThemedCard from '../../components/ThemedCard' 
 import Spacer from '../../components/Spacer'
 
+const allCommits = artifacts.flatMap(a => a.metadata.commits)
+
+
+
+const commitsByDate = {}
+allCommits.forEach(c => {
+  const d = c.date.slice(0, 10)
+  commitsByDate[d] = (commitsByDate[d] || 0) + 1
+})
+
+// labels chỉ lấy ngày/tháng
+const labels = Object.keys(commitsByDate).map(date => {
+  // chỉ ngày: return date.slice(8, 10)
+  // ngày/tháng:
+  return date.slice(8, 10) + '/' + date.slice(5, 7)
+})
+const data = Object.values(commitsByDate)
+
+const linesChangedByDate = {} // Khởi tạo một đối tượng rỗng để lưu trữ số lượng dòng code thay đổi theo ngày
+allCommits.forEach(c => {
+  const d = c.date.slice(0, 10)
+  const lines = (c.additions || 0) + (c.deletions || 0)
+  linesChangedByDate[d] = (linesChangedByDate[d] || 0) + lines
+})
+
+const last7DaysCommits = Object.entries(commitsByDate)
+  .sort((a, b) => b[0].localeCompare(a[0])) // sort date desc
+  .slice(0, 7)
+  .reduce((sum, [, count]) => sum + count, 0)
+
+  const last7DaysLinesChanged = Object.entries(linesChangedByDate)
+  .sort((a, b) => b[0].localeCompare(a[0]))
+  .slice(0, 7)
+  .map(([, count]) => count)
+const avgLinesPerDay = last7DaysLinesChanged.length
+  ? Math.round(last7DaysLinesChanged.reduce((a, b) => a + b, 0) / last7DaysLinesChanged.length)
+  : 0
+
 const metrics = [
   {
     icon: <Ionicons name="git-branch-outline" size={36} color="#fff" />,
     label: "Commits / Tuần",
-    value: "128",
+    value: last7DaysCommits.toString(), // lấy số thực tế
   },
   {
     icon: <Feather name="clock" size={36} color="#fff" />,
     label: "Dòng code / Ngày",
-    value: "5,432",
+    value: avgLinesPerDay.toLocaleString(), // lấy số thực tế
   },
   {
     icon: <MaterialCommunityIcons name="layers-outline" size={36} color="#fff" />,
     label: "Artifacts",
-    value: "76",
+    value: artifacts.length.toString(), // lấy số artifact thực tế
   },
   {
     icon: <Feather name="cloud" size={36} color="#fff" />,
     label: "Triển khai",
-    value: "23",
+    value: "23", // data hiện tại k thể lấy số deployment
   },
 ]
 
 const chartData = {
-  labels: ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'],
+  labels,
   datasets: [
     {
-      data: [70, 95, 85, 110, 150, 130, 90], // Thêm giá trị cho T3 ở vị trí thứ 2
+      data,
       color: () => '#7FB3FF',
       strokeWidth: 2,
     },
@@ -72,28 +111,28 @@ const Home = () => {
 
       {/* Biểu đồ */}
       <ThemedCard style={styles.chartCard}>
-        <ThemedText style={styles.cardLabel}>Commit / Ngày</ThemedText>
-        <LineChart
-          data={chartData}
-          width={screenWidth - 54}
-          height={180}
-          chartConfig={{
-            backgroundColor: backgroundColor,
-            backgroundGradientFrom: backgroundColor,
-            backgroundGradientTo: backgroundColor,
-            decimalPlaces: 0,
-            color: () => "#7FB3FF",
-            labelColor: () => "#B6C6E3",
-            propsForDots: {
-              r: "5",
-              strokeWidth: "2",
-              stroke: "#7FB3FF",
-            },
-          }}
-          bezier
-          style={{ borderRadius: 18 }}
-        />
-      </ThemedCard>
+  <ThemedText style={styles.cardLabel}>Commit / Ngày</ThemedText>
+  <LineChart
+    data={chartData}
+    width={screenWidth - 18}
+    height={180}
+    chartConfig={{
+      backgroundColor: backgroundColor,
+      backgroundGradientFrom: backgroundColor,
+      backgroundGradientTo: backgroundColor,
+      decimalPlaces: 0,
+      color: () => "#7FB3FF",
+      labelColor: () => "#B6C6E3",
+      propsForDots: {
+        r: "5",
+        strokeWidth: "2",
+        stroke: "#7FB3FF",
+      },
+    }}
+    bezier
+    style={{ borderRadius: 18 }}
+  />
+</ThemedCard>
     </ThemedView>
   )
 }
