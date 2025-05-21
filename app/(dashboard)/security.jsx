@@ -2,6 +2,8 @@ import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { PieChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
+import securityData from '../../assets/data/mock.security'
+
 
 import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
@@ -9,37 +11,57 @@ import ThemedView from "../../components/ThemedView"
 import ThemedCard from '../../components/ThemedCard'
 const screenWidth = Dimensions.get('window').width
 
+// Đếm số điểm yếu
+const totalIssues = securityData.length
 
-const recentIssues = [
-  { title: "Unauthorized access", level: "Critical", color: "#EF4444", icon: "warning" },
-  { title: "SQL injection vulnerability", level: "High", color: "#F59E42", icon: "warning" },
-  { title: "Insecure deserialization", level: "High", color: "#F59E42", icon: "warning" },
-  { title: "Cross-site scripting", level: "Medium", color: "#10B981", icon: "warning" },
-]
+// Tính CVSS trung bình
+const avgCvss = (securityData.reduce((sum, i) => sum + i.cvss, 0) / totalIssues).toFixed(1)
+
+// Đếm số lỗi theo mức độ
+const countByLevel = level =>
+  securityData.filter(i => i.level === level).length
+
+const getIssueProps = (level) => {
+  if (level === "Critical") return { color: "#EF4444", icon: "warning" }
+  if (level === "High") return { color: "#F59E42", icon: "warning" }
+  if (level === "Medium") return { color: "#10B981", icon: "warning" }
+  return { color: "#64748b", icon: "alert-circle-outline" }
+}
+
+
+const recentIssues = securityData
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .slice(0, 4)
+  .map(item => ({
+    ...item,
+    ...getIssueProps(item.level)
+  }))
 
 const pieData = [
   {
     name: 'Critical',
-    population: 35,
+    population: countByLevel('Critical'),
     color: '#EF4444',
     legendFontColor: '#EF4444',
     legendFontSize: 15,
   },
   {
     name: 'High',
-    population: 25,
+    population: countByLevel('High'),
     color: '#F59E42',
     legendFontColor: '#F59E42',
     legendFontSize: 15,
   },
   {
     name: 'Medium',
-    population: 30,
+    population: countByLevel('Medium'),
     color: '#10B981',
     legendFontColor: '#10B981',
     legendFontSize: 15,
   },
 ]
+
+
 
 const Security = () => {
   return (
@@ -66,35 +88,44 @@ const Security = () => {
       absolute
     />
     <View style={{ marginLeft: 18, justifyContent: "center" }}>
-      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
-        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: "#EF4444", marginRight: 8 }} />
-        <ThemedText style={{  fontSize: 16, marginRight: 8 }}>Critical</ThemedText>
-        <ThemedText style={{  fontSize: 16 }}>35%</ThemedText>
-      </View>
-      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
-        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: "#F59E42", marginRight: 8 }} />
-        <ThemedText style={{  fontSize: 16, marginRight: 8 }}>High</ThemedText>
-        <ThemedText style={{  fontSize: 16 }}>25%</ThemedText>
-      </View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <View style={{ width: 12, height: 12, borderRadius: 6, backgroundColor: "#10B981", marginRight: 8 }} />
-        <ThemedText style={{  fontSize: 16, marginRight: 8 }}>Medium</ThemedText>
-        <ThemedText style={{  fontSize: 16 }}>30%</ThemedText>
-      </View>
+  {pieData.map((item, idx) => (
+    <View
+      key={item.name}
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: idx < pieData.length - 1 ? 8 : 0,
+      }}
+    >
+      <View
+        style={{
+          width: 12,
+          height: 12,
+          borderRadius: 6,
+          backgroundColor: item.color,
+          marginRight: 8,
+        }}
+      />
+      <ThemedText style={{ fontSize: 16, marginRight: 8 }}>{item.name}</ThemedText>
+      <ThemedText style={{ fontSize: 16 }}>
+        {totalIssues > 0 ? Math.round((item.population / totalIssues) * 100) : 0}%
+      </ThemedText>
     </View>
+  ))}
+</View>
   </View>
 </ThemedCard>
 
       <View style={styles.row}>
-        <ThemedCard style={styles.card}>
-          <ThemedText style={styles.label}>Số điểm yếu</ThemedText>
-          <ThemedText style={styles.value}>8</ThemedText>
-        </ThemedCard>
-        <ThemedCard style={styles.card}>
-          <ThemedText style={styles.label}>CVSS trung bình</ThemedText>
-          <ThemedText style={styles.value}>7,1</ThemedText>
-        </ThemedCard>
-      </View>
+  <ThemedCard style={styles.card}>
+    <ThemedText style={styles.label}>Số điểm yếu</ThemedText>
+    <ThemedText style={styles.value}>{totalIssues}</ThemedText>
+  </ThemedCard>
+  <ThemedCard style={styles.card}>
+    <ThemedText style={styles.label}>CVSS trung bình</ThemedText>
+    <ThemedText style={styles.value}>{avgCvss}</ThemedText>
+  </ThemedCard>
+</View>
 
       <ThemedCard style={styles.card}>
         <ThemedText style={styles.subHeading}>Lỗi gần đây</ThemedText>
@@ -141,6 +172,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     marginHorizontal: 4,
     borderWidth: 1,
+    
   },
   label: {
     fontSize: 16,
