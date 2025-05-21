@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { BarChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
 import { Colors } from '../../constants/Colors'
-import artifacts from '../../assets/data/gr1Demo.artifacts.json'
+import dashboard from '../../assets/data/mock.dashboard.json'
 
 
 
@@ -13,17 +13,20 @@ import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from "../../components/ThemedCard"
 
-const allCommits = artifacts.flatMap(a => a.metadata.commits)
+const complexityLabels = dashboard.artifacts.map(a => a.name)
+const complexityData = dashboard.artifacts.map(a => a.complexity)
+const allCommits = dashboard.artifacts.flatMap(a => a.commits)
 const totalCommits = allCommits.length
 const totalLinesChanged = allCommits.reduce(
   (sum, c) => sum + (c.additions || 0) + (c.deletions || 0),
   0
 )
 
-const vulnerableModules = ["Module A", "Module B", "Module C", "Module D"]
+const vulnerableModules = [
+  ...new Set(dashboard.artifacts.flatMap(a => a.vulnerableModules))
+]
 
-const complexityLabels = ['A', 'B', 'C', 'D', 'E']
-const complexityData = [4, 3, 5, 2, 4]
+
 const screenWidth = Dimensions.get('window').width
 
 const Code = () => {

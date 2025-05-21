@@ -2,33 +2,31 @@ import { StyleSheet, View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { PieChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
-import securityData from '../../assets/data/mock.security'
+import dashboard from '../../assets/data/mock.dashboard.json'
 
 
 import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from '../../components/ThemedCard'
+function getIssueProps(level) {
+  switch (level) {
+    case "Critical":
+      return { icon: "alert-circle", color: "#EF4444" }
+    case "High":
+      return { icon: "alert", color: "#F59E42" }
+    case "Medium":
+      return { icon: "warning", color: "#10B981" }
+    default:
+      return { icon: "information-circle", color: "#64748b" }
+  }
+}
 const screenWidth = Dimensions.get('window').width
 
-// Đếm số điểm yếu
+const securityData = dashboard.security
 const totalIssues = securityData.length
-
-// Tính CVSS trung bình
 const avgCvss = (securityData.reduce((sum, i) => sum + i.cvss, 0) / totalIssues).toFixed(1)
-
-// Đếm số lỗi theo mức độ
-const countByLevel = level =>
-  securityData.filter(i => i.level === level).length
-
-const getIssueProps = (level) => {
-  if (level === "Critical") return { color: "#EF4444", icon: "warning" }
-  if (level === "High") return { color: "#F59E42", icon: "warning" }
-  if (level === "Medium") return { color: "#10B981", icon: "warning" }
-  return { color: "#64748b", icon: "alert-circle-outline" }
-}
-
-
+const countByLevel = level => securityData.filter(i => i.level === level).length
 const recentIssues = securityData
   .sort((a, b) => b.date.localeCompare(a.date))
   .slice(0, 4)
