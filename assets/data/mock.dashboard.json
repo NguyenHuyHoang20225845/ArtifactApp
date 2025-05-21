@@ -7,8 +7,7 @@
       "vulnerableModules": ["Auth", "Payment"],
       "commits": [
         { "date": "2025-05-21", "author": "alice", "additions": 20, "deletions": 5, "peerReviewed": true, "message": "Refactor login" },
-        { "date": "2025-05-21", "author": "bob", "additions": 10, "deletions": 2, "peerReviewed": false, "message": "Fix bug" },
-        { "date": "2025-05-20", "author": "alice", "additions": 15, "deletions": 3, "peerReviewed": true, "message": "Add feature" }
+        { "date": "2025-05-21", "author": "bob", "additions": 10, "deletions": 2, "peerReviewed": false, "message": "Fix bug" }
       ]
     },
     {
@@ -17,60 +16,48 @@
       "complexity": 5,
       "vulnerableModules": ["Payment"],
       "commits": [
-        { "date": "2025-05-21", "author": "carol", "additions": 30, "deletions": 10, "peerReviewed": false, "message": "Update payment logic" },
-        { "date": "2025-05-20", "author": "dave", "additions": 25, "deletions": 5, "peerReviewed": true, "message": "Improve error handling" }
+        { "date": "2025-05-21", "author": "carol", "additions": 30, "deletions": 10, "peerReviewed": false, "message": "Update payment logic" }
+      ]
+    },
+    {
+      "name": "Analytics Service",
+      "createdAt": "2025-05-16T09:00:00.000Z",
+      "complexity": 6,
+      "vulnerableModules": ["DataParser"],
+      "commits": [
+        { "date": "2025-05-20", "author": "ian", "additions": 50, "deletions": 12, "peerReviewed": false, "message": "Optimize query performance" }
       ]
     }
   ],
   "testRuns": [
-    {
-      "date": "2025-05-21",
-      "branch": "main",
-      "cases": [
-        { "name": "Login works", "status": "pass" },
-        { "name": "Signup fails on duplicate", "status": "fail" },
-        { "name": "Profile loads", "status": "pass" }
-      ]
-    },
-    {
-      "date": "2025-05-21",
-      "branch": "feature/payment",
-      "cases": [
-        { "name": "Payment success", "status": "pass" },
-        { "name": "Payment fail", "status": "fail" }
-      ]
-    }
+    { "date": "2025-05-21", "branch": "main", "cases": [
+      { "name": "Login works", "status": "pass" },
+      { "name": "Signup fails", "status": "fail" }
+    ] },
+    { "date": "2025-05-21", "branch": "feature/payment", "cases": [
+      { "name": "Payment success", "status": "pass" },
+      { "name": "Payment fail", "status": "fail" }
+    ] },
+    { "date": "2025-05-20", "branch": "feature/report", "cases": [
+      { "name": "Report loads", "status": "pass" },
+      { "name": "Export CSV", "status": "fail" }
+    ] }
   ],
   "deployments": [
     { "month": "Jan", "deployments": 70, "libraries": 12, "securityConfig": "Medium", "environment": "Staging", "language": "Java" },
     { "month": "Feb", "deployments": 110, "libraries": 15, "securityConfig": "High", "environment": "Production", "language": "Java" },
     { "month": "Mar", "deployments": 140, "libraries": 18, "securityConfig": "High", "environment": "Production", "language": "C++" },
-    { "month": "Apr", "deployments": 190, "libraries": 20, "securityConfig": "High", "environment": "Production", "language": "C++" }
+    { "month": "Apr", "deployments": 190, "libraries": 20, "securityConfig": "High", "environment": "Production", "language": "C++" },
+    { "month": "May", "deployments": 210, "libraries": 21, "securityConfig": "High", "environment": "Production", "language": "Python" }
   ],
   "security": [
-    {
-      "title": "Privilege escalation vulnerability",
-      "level": "Critical",
-      "cvss": 9.3,
-      "date": "2025-05-22"
-    },
-    {
-      "title": "Outdated dependency",
-      "level": "High",
-      "cvss": 7.8,
-      "date": "2025-05-21"
-    },
-    {
-      "title": "Unvalidated redirect",
-      "level": "Medium",
-      "cvss": 6.1,
-      "date": "2025-05-20"
-    },
-    {
-      "title": "Weak password policy",
-      "level": "Medium",
-      "cvss": 5.9,
-      "date": "2025-05-19"
-    }
+    { "title": "Privilege escalation", "level": "Critical", "cvss": 9.3, "date": "2025-05-22" },
+    { "title": "Outdated dependency", "level": "High", "cvss": 7.8, "date": "2025-05-21" },
+    { "title": "Unvalidated redirect", "level": "Medium", "cvss": 6.1, "date": "2025-05-20" },
+    { "title": "Weak password policy", "level": "Medium", "cvss": 5.9, "date": "2025-05-19" },
+    { "title": "Broken access control", "level": "Critical", "cvss": 9.5, "date": "2025-05-14" },
+    { "title": "Insecure deserialization", "level": "High", "cvss": 8.1, "date": "2025-05-13" },
+    { "title": "Missing rate limit", "level": "Medium", "cvss": 5.7, "date": "2025-05-12" },
+    { "title": "Sensitive data in logs", "level": "Low", "cvss": 3.4, "date": "2025-05-11" }
   ]
 }
