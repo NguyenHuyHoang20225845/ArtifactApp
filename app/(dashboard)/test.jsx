@@ -11,7 +11,10 @@ import dashboard from '../../assets/data/mock.dashboard.json'
 
 const screenWidth = Dimensions.get('window').width
 
-const today = "2025-05-21" // hoặc: new Date().toISOString().slice(0, 10)
+const allDates = dashboard.testRuns.map(r => r.date)
+const today = allDates.length
+  ? allDates.reduce((max, d) => (d > max ? d : max), allDates[0])
+  : new Date().toISOString().slice(0, 10)
 const todayRuns = dashboard.testRuns.filter(r => r.date === today)
 const testCasesToday = todayRuns.reduce((sum, r) => sum + r.cases.length, 0)
 const pass = todayRuns.reduce((sum, r) => sum + r.cases.filter(c => c.status === "pass").length, 0)
