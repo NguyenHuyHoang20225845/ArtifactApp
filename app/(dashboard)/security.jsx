@@ -17,6 +17,8 @@ function getIssueProps(level) {
       return { icon: "alert", color: "#F59E42" }
     case "Medium":
       return { icon: "warning", color: "#10B981" }
+    case "Low":
+      return { icon: "information-circle", color: "#3B82F6" }
     default:
       return { icon: "information-circle", color: "#64748b" }
   }
@@ -55,6 +57,13 @@ const pieData = [
     population: countByLevel('Medium'),
     color: '#10B981',
     legendFontColor: '#10B981',
+    legendFontSize: 15,
+  },
+  {
+    name: 'Low',
+    population: countByLevel('Low'),
+    color: '#3B82F6',
+    legendFontColor: '#3B82F6',
     legendFontSize: 15,
   },
 ]
