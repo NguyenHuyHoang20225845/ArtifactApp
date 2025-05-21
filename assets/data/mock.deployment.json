@@ -1,0 +1,14 @@
+[
+  { "month": "Jan", "deployments": 90, "libraries": 12, "securityConfig": "Medium", "environment": "Staging" },
+  { "month": "Feb", "deployments": 110, "libraries": 15, "securityConfig": "High", "environment": "Production" },
+  { "month": "Mar", "deployments": 140, "libraries": 18, "securityConfig": "High", "environment": "Production" },
+  { "month": "Apr", "deployments": 190, "libraries": 20, "securityConfig": "High", "environment": "Production" },
+  { "month": "May", "deployments": 200, "libraries": 22, "securityConfig": "High", "environment": "Production" },
+  { "month": "Jun", "deployments": 220, "libraries": 25, "securityConfig": "High", "environment": "Production" },
+  { "month": "Jul", "deployments": 250, "libraries": 30, "securityConfig": "High", "environment": "Production" },
+  { "month": "Aug", "deployments": 270, "libraries": 35, "securityConfig": "High", "environment": "Production" },
+  { "month": "Sep", "deployments": 300, "libraries": 40, "securityConfig": "High", "environment": "Production" },
+  { "month": "Oct", "deployments": 320, "libraries": 45, "securityConfig": "High", "environment": "Production" },
+  { "month": "Nov", "deployments": 190, "libraries": 20, "securityConfig": "High", "environment": "Production" },
+  { "month": "Dec", "deployments": 150, "libraries": 18, "securityConfig": "High", "environment": "Production" }
+]
