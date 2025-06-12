@@ -5,22 +5,29 @@ import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from "../../components/ThemedCard"
-import testMock from '../../assets/data/mock.test.json'
+import dashboard from '../../assets/data/mock.dashboard.json'
 
 
 
 const screenWidth = Dimensions.get('window').width
 
-const today = "2025-05-21" // hoặc: new Date().toISOString().slice(0, 10)
-const todayRuns = testMock.testRuns.filter(r => r.date === today)
+const allDates = dashboard.testRuns.map(r => r.date)
+const today = allDates.length
+  ? allDates.reduce((max, d) => (d > max ? d : max), allDates[0])
+  : new Date().toISOString().slice(0, 10)
+const todayRuns = dashboard.testRuns.filter(r => r.date === today)
 const testCasesToday = todayRuns.reduce((sum, r) => sum + r.cases.length, 0)
 const pass = todayRuns.reduce((sum, r) => sum + r.cases.filter(c => c.status === "pass").length, 0)
 const fail = todayRuns.reduce((sum, r) => sum + r.cases.filter(c => c.status === "fail").length, 0)
 const total = pass + fail
 const passRate = total ? Math.round((pass / total) * 100) : 0
 const failRate = total ? 100 - passRate : 0
-const notReviewed = testMock.commits.filter(c => !c.peerReviewed).map(c => c.message)
 
+// Lấy commit chưa peer review từ tất cả artifacts
+const notReviewed = dashboard.artifacts
+  .flatMap(a => a.commits)
+  .filter(c => c.peerReviewed === false)
+  .map(c => c.message)
 const Test = () => {
   return (
     <ThemedView style={styles.container} safe>

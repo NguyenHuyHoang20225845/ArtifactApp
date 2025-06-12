@@ -2,7 +2,7 @@ import { StyleSheet, View, useColorScheme } from 'react-native'
 import { BarChart } from 'react-native-chart-kit'
 import { Colors } from '../../constants/Colors'
 import { Dimensions } from 'react-native'
-import deployMock from '../../assets/data/mock.deployment.json'
+import dashboard from '../../assets/data/mock.dashboard.json'
 
 
 
@@ -10,6 +10,8 @@ import Spacer from "../../components/Spacer"
 import ThemedText from "../../components/ThemedText"
 import ThemedView from "../../components/ThemedView"
 import ThemedCard from "../../components/ThemedCard"
+
+const deployMock = dashboard.deployments
 
 const deployData = {
   labels: deployMock.map(d => d.month),
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingBottom: 32,
   },
   heading: {
     fontWeight: "bold",

@@ -3,17 +3,15 @@ import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import { LineChart } from 'react-native-chart-kit'
 import { Dimensions } from 'react-native'
 import { Colors } from '../../constants/Colors'
-import artifacts from '../../assets/data/gr1Demo.artifacts.json'
-
+import dashboard from '../../assets/data/mock.dashboard.json'
 
 import ThemedView from '../../components/ThemedView'
 import ThemedText from '../../components/ThemedText'
 import ThemedCard from '../../components/ThemedCard' 
 import Spacer from '../../components/Spacer'
 
-const allCommits = artifacts.flatMap(a => a.metadata.commits)
-
-
+// Lấy commit từ mock.dashboard
+const allCommits = dashboard.artifacts.flatMap(a => a.commits)
 
 const commitsByDate = {}
 allCommits.forEach(c => {
@@ -21,15 +19,10 @@ allCommits.forEach(c => {
   commitsByDate[d] = (commitsByDate[d] || 0) + 1
 })
 
-// labels chỉ lấy ngày/tháng
-const labels = Object.keys(commitsByDate).map(date => {
-  // chỉ ngày: return date.slice(8, 10)
-  // ngày/tháng:
-  return date.slice(8, 10) + '/' + date.slice(5, 7)
-})
+const labels = Object.keys(commitsByDate).map(date => date.slice(8, 10) + '/' + date.slice(5, 7))
 const data = Object.values(commitsByDate)
 
-const linesChangedByDate = {} // Khởi tạo một đối tượng rỗng để lưu trữ số lượng dòng code thay đổi theo ngày
+const linesChangedByDate = {}
 allCommits.forEach(c => {
   const d = c.date.slice(0, 10)
   const lines = (c.additions || 0) + (c.deletions || 0)
@@ -37,11 +30,11 @@ allCommits.forEach(c => {
 })
 
 const last7DaysCommits = Object.entries(commitsByDate)
-  .sort((a, b) => b[0].localeCompare(a[0])) // sort date desc
+  .sort((a, b) => b[0].localeCompare(a[0]))
   .slice(0, 7)
   .reduce((sum, [, count]) => sum + count, 0)
 
-  const last7DaysLinesChanged = Object.entries(linesChangedByDate)
+const last7DaysLinesChanged = Object.entries(linesChangedByDate)
   .sort((a, b) => b[0].localeCompare(a[0]))
   .slice(0, 7)
   .map(([, count]) => count)
@@ -53,22 +46,22 @@ const metrics = [
   {
     icon: <Ionicons name="git-branch-outline" size={36} color="#fff" />,
     label: "Commits / Tuần",
-    value: last7DaysCommits.toString(), // lấy số thực tế
+    value: last7DaysCommits.toString(),
   },
   {
     icon: <Feather name="clock" size={36} color="#fff" />,
     label: "Dòng code / Ngày",
-    value: avgLinesPerDay.toLocaleString(), // lấy số thực tế
+    value: avgLinesPerDay.toLocaleString(),
   },
   {
     icon: <MaterialCommunityIcons name="layers-outline" size={36} color="#fff" />,
     label: "Artifacts",
-    value: artifacts.length.toString(), // lấy số artifact thực tế
+    value: dashboard.artifacts.length.toString(),
   },
   {
     icon: <Feather name="cloud" size={36} color="#fff" />,
     label: "Triển khai",
-    value: "23", // data hiện tại k thể lấy số deployment
+    value: dashboard.deployments[dashboard.deployments.length - 1]?.deployments?.toString() || "0",
   },
 ]
 
@@ -86,7 +79,6 @@ const chartData = {
 const screenWidth = Dimensions.get('window').width
 
 const Home = () => {
-
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
   const backgroundColor = theme.background
@@ -111,33 +103,35 @@ const Home = () => {
 
       {/* Biểu đồ */}
       <ThemedCard style={styles.chartCard}>
-  <ThemedText style={styles.cardLabel}>Commit / Ngày</ThemedText>
-  <LineChart
-    data={chartData}
-    width={screenWidth - 18}
-    height={180}
-    chartConfig={{
-      backgroundColor: backgroundColor,
-      backgroundGradientFrom: backgroundColor,
-      backgroundGradientTo: backgroundColor,
-      decimalPlaces: 0,
-      color: () => "#7FB3FF",
-      labelColor: () => "#B6C6E3",
-      propsForDots: {
-        r: "5",
-        strokeWidth: "2",
-        stroke: "#7FB3FF",
-      },
-    }}
-    bezier
-    style={{ borderRadius: 18 }}
-  />
-</ThemedCard>
+        <ThemedText style={styles.cardLabel}>Commit / Ngày</ThemedText>
+        <LineChart
+          data={chartData}
+          width={screenWidth - 18}
+          height={180}
+          chartConfig={{
+            backgroundColor: backgroundColor,
+            backgroundGradientFrom: backgroundColor,
+            backgroundGradientTo: backgroundColor,
+            decimalPlaces: 0,
+            color: () => "#7FB3FF",
+            labelColor: () => "#B6C6E3",
+            propsForDots: {
+              r: "5",
+              strokeWidth: "2",
+              stroke: "#7FB3FF",
+            },
+          }}
+          bezier
+          style={{ borderRadius: 18 }}
+        />
+      </ThemedCard>
     </ThemedView>
   )
 }
 
 export default Home
+
+// Giữ nguyên phần styles như cũ
 
 const styles = StyleSheet.create({
   container: {
