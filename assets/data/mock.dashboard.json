@@ -1,7 +1,7 @@
 {
   "artifacts": [
     {
-      "name": "Core Service",
+      "name": "Core",
       "createdAt": "2025-05-15T17:00:00.000Z",
       "complexity": 3,
       "vulnerableModules": ["Auth"],
@@ -13,7 +13,7 @@
       ]
     },
     {
-      "name": "Payment Service",
+      "name": "Payment",
       "createdAt": "2025-05-16T17:00:00.000Z",
       "complexity": 5,
       "vulnerableModules": ["Payment"],
@@ -24,7 +24,7 @@
       ]
     },
     {
-      "name": "Analytics Service",
+      "name": "Analy",
       "createdAt": "2025-05-17T09:00:00.000Z",
       "complexity": 7,
       "vulnerableModules": ["DataParser"],
@@ -35,7 +35,7 @@
       ]
     },
     {
-      "name": "Notification Service",
+      "name": "Notif",
       "createdAt": "2025-05-18T09:00:00.000Z",
       "complexity": 9,
       "vulnerableModules": ["Email", "SMS"],
