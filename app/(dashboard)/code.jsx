@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     borderWidth: 1,        
     borderColor: "#000",   
-    // elevation: 1,       // Xóa hoặc comment dòng này
+    // elevation: 1,       
   },
   label: {
     fontSize: 16,
