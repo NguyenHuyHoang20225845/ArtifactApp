@@ -1,6 +1,8 @@
 import { StyleSheet, View, useColorScheme, Dimensions, ScrollView } from 'react-native'
 import { Ionicons, MaterialCommunityIcons, Feather } from '@expo/vector-icons'
 import { LineChart } from 'react-native-chart-kit'
+import { TouchableOpacity } from 'react-native'
+import { useRouter } from 'expo-router'
 
 import { Colors } from '../../constants/Colors'
 import dashboard from '../../assets/data/mock.dashboard.json'
@@ -122,6 +124,7 @@ const Home = () => {
   const colorScheme = useColorScheme()
   const theme = Colors[colorScheme] ?? Colors.light
   const bgColor = theme.background
+  const router = useRouter()
 
   const chartData = {
     labels,
@@ -183,28 +186,34 @@ const Home = () => {
           />
         </ThemedCard>
 
-        {/* RELATIONSHIPS SUMMARY - Compact */}
-        <ThemedCard style={styles.relationCard}>
-          <ThemedText style={styles.cardLabel}>Quan hệ Artifacts</ThemedText>
-          <View style={styles.relationGrid}>
-            <View style={styles.relationItem}>
-              <ThemedText style={styles.relationValue}>{relations.structural}</ThemedText>
-              <ThemedText style={styles.relationLabel}>Structural</ThemedText>
+        {/* RELATIONSHIPS SUMMARY - Tap to view details */}
+        <TouchableOpacity 
+          onPress={() => router.push('(relations)/details')}
+          activeOpacity={0.7}
+        >
+          <ThemedCard style={styles.relationCard}>
+            <ThemedText style={styles.cardLabel}>Quan hệ Artifacts →</ThemedText>
+            <View style={styles.relationGrid}>
+              <View style={styles.relationItem}>
+                <ThemedText style={styles.relationValue}>{relations.structural}</ThemedText>
+                <ThemedText style={styles.relationLabel}>Structural</ThemedText>
+              </View>
+              <View style={styles.relationItem}>
+                <ThemedText style={styles.relationValue}>{relations.temporal}</ThemedText>
+                <ThemedText style={styles.relationLabel}>Temporal</ThemedText>
+              </View>
+              <View style={styles.relationItem}>
+                <ThemedText style={styles.relationValue}>{relations.interaction}</ThemedText>
+                <ThemedText style={styles.relationLabel}>Interaction</ThemedText>
+              </View>
+              <View style={styles.relationItem}>
+                <ThemedText style={styles.relationValue}>{relations.semantic}</ThemedText>
+                <ThemedText style={styles.relationLabel}>Semantic</ThemedText>
+              </View>
             </View>
-            <View style={styles.relationItem}>
-              <ThemedText style={styles.relationValue}>{relations.temporal}</ThemedText>
-              <ThemedText style={styles.relationLabel}>Temporal</ThemedText>
-            </View>
-            <View style={styles.relationItem}>
-              <ThemedText style={styles.relationValue}>{relations.interaction}</ThemedText>
-              <ThemedText style={styles.relationLabel}>Interaction</ThemedText>
-            </View>
-            <View style={styles.relationItem}>
-              <ThemedText style={styles.relationValue}>{relations.semantic}</ThemedText>
-              <ThemedText style={styles.relationLabel}>Semantic</ThemedText>
-            </View>
-          </View>
-        </ThemedCard>
+          </ThemedCard>
+        </TouchableOpacity>
+
 
         {/* ALERTS */}
         <ThemedCard style={styles.alertCard}>

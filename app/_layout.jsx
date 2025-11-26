@@ -16,6 +16,7 @@ export default function RootLayout() {
       }}>
         {/* Groups */}
         <Stack.Screen name="(dashboard)" options={{ headerShown: false }} />
+        <Stack.Screen name="(relations)" options={{ headerShown: false }} />
 
         {/* Individual Screens */}
         <Stack.Screen name="index" options={{ title: "Home" }} />
